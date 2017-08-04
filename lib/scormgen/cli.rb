@@ -1,10 +1,9 @@
+require 'scormgen/generator'
+
 module Scormgen
   class CLI
     def self.execute(path=nil)
-      puts 'Generating manifest'
-      # TODO
-
-      
+      Scormgen::Generator.new.run
     end
   end
 end
