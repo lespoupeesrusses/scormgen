@@ -87,8 +87,12 @@ module Scormgen
     end
 
     def zip_files
+      puts "Zipping"
       Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
-        @files.each { |file| zipfile.add(file, File.join('.', file)) }
+        @files.each do |file| 
+          puts "Adding #{file} to zip"
+          zipfile.add(file, File.join('.', file))
+        end
       end
       puts "#{ZIP} generated"
     end
