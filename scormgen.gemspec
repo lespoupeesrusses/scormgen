@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "scormgen/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "SCORMgen"
+  spec.name          = "scormgen"
   spec.version       = Scormgen::VERSION
   spec.authors       = ["Arnaud Levy", "Pierre-André Boissinot"]
   spec.email         = ["contact@arnaudlevy.com", "pabois@lespoupees.paris"]
