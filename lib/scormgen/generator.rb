@@ -3,7 +3,7 @@ module Scormgen
   class Generator
     MANIFEST = 'imsmanifest.xml'
     ZIP = 'module.zip'
-    IGNORED_FILES = [MANIFEST, ZIP, 'scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb']
+    IGNORED_FILES = [MANIFEST, ZIP, 'scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb', 'robots.txt']
 
     def run(identifier=nil, name=nil)
       @identifier = identifier.nil? ? default_identifier : identifier
@@ -87,6 +87,7 @@ module Scormgen
     end
 
     def zip_files
+      # FIXME no folder!
       puts "Zipping"
       Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
         @files.each do |file| 
