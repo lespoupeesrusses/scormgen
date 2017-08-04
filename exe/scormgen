@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'scormgen/cli'
+Scormgen::CLI.execute ARGV[0]
