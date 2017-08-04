@@ -18,6 +18,10 @@ If you want to specify the identifier run:
 
     $ scormgen identifier_of_module
 
+If you want to specify the identifier and the namerun:
+
+    $ scormgen identifier_of_module "Name of module"
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

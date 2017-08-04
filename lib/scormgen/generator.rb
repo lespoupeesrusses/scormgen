@@ -1,24 +1,96 @@
+require 'zip'
 module Scormgen
   class Generator
-    def run
-      puts "Generate"
+    MANIFEST = 'imsmanifest.xml'
+    ZIP = 'module.zip'
+    IGNORED_FILES = [MANIFEST, ZIP, 'scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb']
+
+    def run(identifier=nil, name=nil)
+      @identifier = identifier.nil? ? default_identifier : identifier
+      @name = name.nil? ? @identifier : name
+      puts "Generating SCORM manifest for #{@name} (#{identifier})"
+
+      delete_previous_files
       list_files
-      puts "#{@files.count} files found"
+      create_manifest
+      zip_files
     end
 
     protected
+
+    def delete_previous_files
+      File.delete MANIFEST if File.exists? MANIFEST
+      File.delete ZIP if File.exists? ZIP
+    end
 
     def list_files
       @files = []
       Dir.glob("**/*").each do |path|
         next if File.directory? path
-        next if ignored_files.include? path
+        next if IGNORED_FILES.include? path
         @files << path
       end
+      puts "#{@files.count} files found"
     end
 
-    def ignored_files
-      ['scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb']
+    def default_identifier
+      File.basename Dir.pwd
+    end
+
+    def create_defaults_from(args)
+      @identifier = File.basename Dir.pwd
+      @identifier = args[0] if args.count > 0
+      @name = @identifier
+      @name = args[1] if args.count > 1
+    end
+
+    def create_manifest
+      imsmanifest = "<?xml version=\"1.0\" standalone=\"no\" ?>
+<manifest identifier=\"#{@identifier}\"
+  xmlns=\"http://www.imsglobal.org/xsd/imscp_v1p1\"
+  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+  xmlns:adlcp=\"http://www.adlnet.org/xsd/adlcp_v1p3\"
+  xmlns:adlseq=\"http://www.adlnet.org/xsd/adlseq_v1p3\"
+  xmlns:adlnav=\"http://www.adlnet.org/xsd/adlnav_v1p3\"
+  xmlns:imsss=\"http://www.imsglobal.org/xsd/imsss\"
+  xsi:schemaLocation=\"http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+    http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+    http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+    http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd
+    http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd\">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 4th Edition</schemaversion>
+  </metadata>
+  <organizations default=\"#{@identifier}\">
+    <organization identifier=\"#{@identifier}\">
+      <title>#{@name}</title>
+      <item identifier=\"item-1\" identifierref=\"elearning\">
+        <title>#{@name}</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier=\"elearning\" type=\"webcontent\" adlcp:scormType=\"sco\" href=\"index.html\">
+"
+      @files.each do |file|
+        imsmanifest += "      <file href=\"#{file}\" />
+"
+      end
+      imsmanifest += "    </resource>
+  </resources>
+</manifest>"
+      file = File.open(MANIFEST, 'w')
+      file.puts imsmanifest
+      file.close
+      puts "#{MANIFEST} generated"
+    end
+
+    def zip_files
+      Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
+        @files.each { |file| zipfile.add(file, File.join('.', file)) }
+      end
+      puts "#{ZIP} generated"
     end
   end
 end
