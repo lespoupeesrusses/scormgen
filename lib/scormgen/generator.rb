@@ -8,7 +8,7 @@ module Scormgen
     def run(identifier=nil, name=nil)
       @identifier = identifier.nil? ? default_identifier : identifier
       @name = name.nil? ? @identifier : name
-      puts "Generating SCORM manifest for #{@name} (#{identifier})"
+      puts "Generating SCORM manifest for #{@name} (#{@identifier})"
 
       delete_previous_files
       list_files
@@ -87,7 +87,7 @@ module Scormgen
     end
 
     def zip_files
-      # FIXME no folder!
+      # FIXME there must be no root folder!
       puts "Zipping"
       Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
         @files.each do |file| 
