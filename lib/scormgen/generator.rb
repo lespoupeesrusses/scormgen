@@ -1,19 +1,22 @@
 require 'zip'
+require 'scormgen/version'
+
 module Scormgen
   class Generator
     MANIFEST = 'imsmanifest.xml'
     ZIP = 'module.zip'
-    IGNORED_FILES = [MANIFEST, ZIP, 'scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb', 'robots.txt']
+    IGNORED_FILES = ['scorm_generator.rb', 'fire_app_log.txt', 'crossdomain.xml', 'config.rb', 'robots.txt', '.DS_Store']
 
     def run(identifier=nil, name=nil)
+      puts "scormgen #{Scormgen::VERSION}"
       @identifier = identifier.nil? ? default_identifier : identifier
       @name = name.nil? ? @identifier : name
       puts "Generating SCORM manifest for #{@name} (#{@identifier})"
-
       delete_previous_files
       list_files
       create_manifest
       zip_files
+      puts "Done"
     end
 
     protected
@@ -87,13 +90,13 @@ module Scormgen
     end
 
     def zip_files
-      # FIXME there must be no root folder!
       puts "Zipping"
       Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
         @files.each do |file| 
           puts "Adding #{file} to zip"
           zipfile.add file, file
         end
+        zipfile.add MANIFEST, MANIFEST
       end
       puts "#{ZIP} generated"
     end
