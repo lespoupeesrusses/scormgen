@@ -86,6 +86,7 @@ module Scormgen
       file = File.open(MANIFEST, 'w')
       file.puts imsmanifest
       file.close
+      @files << MANIFEST
       puts "#{MANIFEST} generated"
     end
 
@@ -96,7 +97,6 @@ module Scormgen
           puts "Adding #{file} to zip"
           zipfile.add file, file
         end
-        zipfile.add MANIFEST, MANIFEST
       end
       puts "#{ZIP} generated"
     end
