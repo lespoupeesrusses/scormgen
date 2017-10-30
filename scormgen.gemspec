@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["contact@arnaudlevy.com", "pabois@lespoupees.paris"]
 
   spec.summary       = 'Easy SCORM manifest generation'
-  spec.homepage      = 'https://github.com/semiodesign/scormgen'
+  spec.homepage      = 'https://github.com/lespoupeesrusses/scormgen'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
