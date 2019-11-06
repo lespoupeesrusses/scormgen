@@ -77,7 +77,7 @@ module Scormgen
     <resource identifier=\"elearning\" type=\"webcontent\" adlcp:scormType=\"sco\" href=\"index.html\">
 "
       @files.each do |file|
-        imsmanifest += "      <file href=\"#{file}\" />
+        imsmanifest += "      <file href=\"#{file.gsub('&', '&amp;')}\" />
 "
       end
       imsmanifest += "    </resource>
@@ -93,7 +93,7 @@ module Scormgen
     def zip_files
       puts "Zipping"
       Zip::File.open(ZIP, Zip::File::CREATE) do |zipfile|
-        @files.each do |file| 
+        @files.each do |file|
           puts "Adding #{file} to zip"
           zipfile.add file, file
         end
