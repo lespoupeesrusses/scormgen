@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "scormgen"
   spec.version       = Scormgen::VERSION
   spec.authors       = ["Arnaud Levy", "Pierre-André Boissinot"]
-  spec.email         = ["contact@arnaudlevy.com", "pabois@lespoupees.paris"]
+  spec.email         = ["contact@arnaudlevy.com", "paboissinot@lespoupees.paris"]
 
   spec.summary       = 'Easy SCORM manifest generation'
   spec.homepage      = 'https://github.com/lespoupeesrusses/scormgen'
