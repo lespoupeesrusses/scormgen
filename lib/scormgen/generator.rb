@@ -67,9 +67,9 @@ module Scormgen
   </metadata>
   <organizations default=\"#{@identifier}\">
     <organization identifier=\"#{@identifier}\">
-      <title>#{@name}</title>
+      <title><![CDATA[#{@name}]]></title>
       <item identifier=\"item-1\" identifierref=\"elearning\">
-        <title>#{@name}</title>
+        <title><![CDATA[#{@name}]]></title>
       </item>
     </organization>
   </organizations>
