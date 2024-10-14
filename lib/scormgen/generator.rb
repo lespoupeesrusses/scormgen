@@ -22,8 +22,8 @@ module Scormgen
     protected
 
     def delete_previous_files
-      File.delete MANIFEST if File.exists? MANIFEST
-      File.delete ZIP if File.exists? ZIP
+      File.delete MANIFEST if File.exist? MANIFEST
+      File.delete ZIP if File.exist? ZIP
     end
 
     def list_files
